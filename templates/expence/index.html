@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expence</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css'%}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    
+        <nav class="navbar navbar-light bg-light justify-content-between">
+            <a class="navbar-brand">Expense Tracker</a>
+            <a class="navbar-brand">Home</a>
+            
+            <form class="form-inline" id="navleft" >
+              {% if user.is_authenticated %}
+              <h3>Hello {{ fname }}</h3>
+              <button class="btn btn-outline-success my-2 my-sm-0"  type="submit"><a href="/signout">Signout</a></button>
+              {% else %}
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><a href="/signin">Signin</a></button>
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><a href="/signup">Signup</a></button>
+              {% endif %}
+            </form>
+    </nav>
+    {% if user.is_authenticated %}
+    <div class="container mb-3">
+        <h2> Expense Tracker </h2>
+        <form action=" " method="post">
+        <div class="row">
+           
+            {% csrf_token %}
+          <div class="col">
+            <input type="number" class="form-control" id="exampleFormControlInput1" name="cramount" placeholder="Amount">
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" id="exampleFormControlInput1" name="crdiscription" placeholder="Description">
+          </div>
+          <div class="col">
+            <input type="date" class="form-control" id="exampleFormControlInput1" name="crdate" placeholder="dd-mm-yyy" >
+          </div>
+          <div class="col">
+            <button class="btn btn-success" type="submit"  >Credit</button>
+          </div>
+        </div>
+
+        <div class="row">
+           
+         
+        <div class="col">
+          <input type="number" class="form-control" id="exampleFormControlInput1" name="deamount" placeholder="Amount">
+        </div>
+        <div class="col">
+          <input type="text" class="form-control" id="exampleFormControlInput1" name="dediscription" placeholder="Description">
+        </div>
+        <div class="col">
+          <input type="date" class="form-control" id="exampleFormControlInput1" name="dedate" placeholder="dd-mm-yyy" >
+        </div>
+        <div class="col">
+          <button class="btn btn-warning" type="submit"  >Debit</button>
+        </div>
+      </div>
+      </form>
+
+      <br>
+      
+      
+      <hr>
+      
+      <div class="statement_row row">
+          <div class="col">Date</div>
+          <div class="col">Description</div>
+          <div class="col">Credit</div>
+          <div class="col">Debit</div>
+          <div class="col">Balance</div>
+          <div class="col"></div>
+      </div>
+      <hr>
+      
+      {% for item in items %}
+      <div class="statement_row row">
+        <div class="col">{{ item.crdates }}</div>
+        <div class="col">{{item.crdescriptions}}</div>
+        <div class="col">{{item.cramounts}}</div>
+        <div class="col">{{item.deamounts}}</div>
+        <div class="col">{{ item.balance }}</div>
+        <div class="col"><a href="{url 'deleteStatement' item.id}"class=" btn btn-warning">Delete</a> </div>
+    </div>
+    <hr>
+    {% endfor %}
+        
+           
+           
+    {% endif %}
+    
+</body>
+</html>
